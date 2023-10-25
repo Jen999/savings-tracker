@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack, useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import * as Font from 'expo-font';
 
-const Home = () => {
-    const router = useRouter();
+import Home from '../pages/Home';
+import MainContainer from './mainContainer';
+
+const App = () => {
 
     return (
-        <SafeAreaView>
-            
-        </SafeAreaView>
+        // <Home />
+        <MainContainer />
     )
 }
+
+
+export default App;
