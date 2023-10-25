@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-function AddTransactions(props) {
+function AddTransactions({ navigation }) {
     return (
         <View>
 

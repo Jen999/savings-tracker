@@ -5,12 +5,18 @@ import * as Font from 'expo-font';
 
 import Home from '../pages/Home';
 import MainContainer from './mainContainer';
+import { StatusBar } from 'react-native';
 
 const App = () => {
 
     return (
         // <Home />
-        <MainContainer />
+        <>
+            {/* <StatusBar hidden/> */}
+            <MainContainer />
+            
+        </>
+        
     )
 }
 

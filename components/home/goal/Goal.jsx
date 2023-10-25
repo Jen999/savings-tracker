@@ -1,16 +1,24 @@
 import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import styles from './goal.style'
 
-const Goal = () => {
+const Goal = ({navigate}) => {
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Goal</Text>
-        <TouchableOpacity>
+      <TouchableOpacity>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Goal</Text>
           <Text style={styles.headerBtn}>➤</Text>
-        </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+      <Text style={{ alignSelf: 'center' }}>Progressbar</Text>
+      <View style={styles.header}>
+          <Text>Coffee</Text>
+          <Text>SGD 130.00</Text>
       </View>
       
     </View>

@@ -1,4 +1,6 @@
 import React from "react";
+import { Stack, useRouter } from 'expo-router';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottom, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -10,6 +12,9 @@ import Tracker from "../pages/Tracker"
 import AddTransactions from "../pages/AddTransactions";
 import Insights from "../pages/Insights";
 import Info from "../pages/Info";
+import { Text, View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
 
 // Page names
 const homeName = 'Home';
@@ -23,6 +28,15 @@ const Tab = createBottomTabNavigator();
 export default function MainContainer() {
 
     return (
+        <>
+        
+        <SafeAreaView>
+            <Stack.Screen 
+                options={{
+                    headerShown: false
+                }}
+            />
+        </SafeAreaView>
         <NavigationContainer independent={true}>
             <Tab.Navigator
                 initialRouteName={homeName}
@@ -42,14 +56,13 @@ export default function MainContainer() {
                         } else if (rn === infoName) {
                             iconName = focused ? 'settings' : 'settings-outline';
                         } 
-
                         return <Ionicons name={iconName} size={size} color={color} />
                     },
                     tabBarActiveTintColor: COLORS.tertiary,
                     tabBarInactiveTintColor: COLORS.secondary,
-                    tabBarStyle: {height: 50},
-                    tabBarLabelStyle: { paddingBottom: SIZES.smallMargin }
-
+                    tabBarStyle: {padding: SIZES.smallMargin, height: 60},
+                    tabBarLabelStyle: { paddingBottom: SIZES.smallMargin },
+                    // headerShown: false
                 })}>
                 
                 <Tab.Screen name={homeName} component={Home} />
@@ -59,7 +72,7 @@ export default function MainContainer() {
                 <Tab.Screen name={infoName} component={Info} />
 
             </Tab.Navigator>
-
         </NavigationContainer>
+        </>
     )
 }

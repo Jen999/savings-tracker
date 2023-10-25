@@ -8,13 +8,12 @@ const Insights = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Insights</Text>
-        <TouchableOpacity>
+      <TouchableOpacity>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Insights</Text>
           <Text style={styles.headerBtn}>➤</Text>
-        </TouchableOpacity>
-      </View>
-
+        </View>
+      </TouchableOpacity>
       <View>
         <InsightsCard 
           item="You have already spent 10% more than last month on Coffee!"

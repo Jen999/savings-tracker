@@ -2,11 +2,14 @@ import React from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
 
-import { COLORS, FONT, SIZES } from "../constants";
-import { Insights, Goal } from '../components';
+import styles from './header.style';
 
-const Home = ({navigation}) => {
-    const router = useRouter();
+import { COLORS, SIZES } from '../constants';
+import Insights from '../components/home/insights/Insights';
+import Goal from '../components/home/goal/Goal';
+import Calendar from '../components/home/calendar/Calendar';
+
+const Home = ({ navigation }) => {
 
     return (
         <SafeAreaView>
@@ -15,30 +18,34 @@ const Home = ({navigation}) => {
                     headerStyle: styles.header,
                     headerShadowVisible: true,
                     headerTitle: 'Home',
-                    headerTitleStyle: styles.headerText
+                    headerTitleStyle: styles.headerText,
                 }}
-            />
+            /> 
             <ScrollView>
-                <View>
-                    <Text>Day 12</Text>
+                <View 
+                    style={{ 
+                        flex: 1,
+                        alignItems: 'center', 
+                        alignSelf: 'center',
+                        backgroundColor: COLORS.secondary,
+                        width: 80,
+                        margin: SIZES.smallMargin,
+                        padding: SIZES.smallMargin,
+                        borderRadius: SIZES.smallMargin
+                    }}>
+                    <Text 
+                        style={{
+                            color: COLORS.white,
+                            fontSize: SIZES.medium,
+                            fontWeight: 600
+                        }}>Day 12</Text>
                 </View>
                 <Goal />
                 <Insights />
+                <Calendar />
             </ScrollView>
-            
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: COLORS.primary,
-    },
-    headerText: {
-        color: COLORS.white,
-        fontSize: SIZES.xLarge
-    }
-})
-
 
 export default Home

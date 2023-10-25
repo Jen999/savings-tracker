@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-function Info(props) {
+function Info({ navigation }) {
     return (
         <View>
             
