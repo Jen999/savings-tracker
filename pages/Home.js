@@ -8,6 +8,7 @@ import { COLORS, SIZES } from '../constants';
 import Insights from '../components/home/insights/Insights';
 import Goal from '../components/home/goal/Goal';
 import Calendar from '../components/home/calendar/Calendar';
+import StandardCard from '../components/common/cards/StandardCard';
 
 const Home = ({ navigation }) => {
 
@@ -20,26 +21,9 @@ const Home = ({ navigation }) => {
                     headerTitle: 'Home',
                     headerTitleStyle: styles.headerText,
                 }}
-            /> 
+            />
             <ScrollView>
-                <View 
-                    style={{ 
-                        flex: 1,
-                        alignItems: 'center', 
-                        alignSelf: 'center',
-                        backgroundColor: COLORS.secondary,
-                        width: 80,
-                        margin: SIZES.smallMargin,
-                        padding: SIZES.smallMargin,
-                        borderRadius: SIZES.smallMargin
-                    }}>
-                    <Text 
-                        style={{
-                            color: COLORS.white,
-                            fontSize: SIZES.medium,
-                            fontWeight: 600
-                        }}>Day 12</Text>
-                </View>
+                <StandardCard item='Day 12'/>
                 <Goal />
                 <Insights />
                 <Calendar />

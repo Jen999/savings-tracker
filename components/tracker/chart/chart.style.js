@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
     margin: SIZES.smallMargin,
     padding: SIZES.smallMargin,
     borderRadius: SIZES.xSmall,
+    height: 200,
+    alignItems: 'center',
+    justifyContent: "center",
   },
   header: {
     flexDirection: "row",
@@ -24,7 +27,7 @@ const styles = StyleSheet.create({
   headerBtn: {
     fontSize: SIZES.medium,
     fontFamily: FONT.medium,
-    color: COLORS.primary,
+    color: COLORS.gray,
   },
   cardsContainer: {
     marginTop: SIZES.medium,

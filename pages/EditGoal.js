@@ -1,17 +1,20 @@
 import React from 'react';
-import { Stack, useRouter } from 'expo-router';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
 
 import styles from './header.style';
 
-function Insights({ navigation }) {
+function EditGoal() {
+
+    const Stack = createNativeStackNavigator();
+
     return (
         <SafeAreaView>
             <Stack.Screen 
                 options={{
                     headerStyle: styles.header,
                     headerShadowVisible: true,
-                    headerTitle: 'Insights',
+                    headerTitle: 'Edit Goal',
                     headerTitleStyle: styles.headerText,
                 }}
             /> 
@@ -22,4 +25,4 @@ function Insights({ navigation }) {
     );
 }
 
-export default Insights;
+export default EditGoal;

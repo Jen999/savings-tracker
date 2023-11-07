@@ -1,6 +1,6 @@
 import React from "react";
-import { Stack, useRouter } from 'expo-router';
-
+// import { Stack } from "expo-router";
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottom, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -12,32 +12,21 @@ import Tracker from "../pages/Tracker"
 import AddTransactions from "../pages/AddTransactions";
 import Insights from "../pages/Insights";
 import Info from "../pages/Info";
-import { Text, View, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native";
-import { ScrollView } from "react-native";
 
 // Page names
 const homeName = 'Home';
 const trackerName = 'Tracker';
-const addTransactionsName = 'AddTransactions';
+const addTransactionsName = 'Add';
 const insightsName = 'Insights';
-const infoName = 'Info';
+const infoName = 'Settings';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function MainContainer() {
+export default function MainContainer({navigation}) {
 
     return (
         <>
-        
-        <SafeAreaView>
-            <Stack.Screen 
-                options={{
-                    headerShown: false
-                }}
-            />
-        </SafeAreaView>
-        <NavigationContainer independent={true}>
             <Tab.Navigator
                 initialRouteName={homeName}
                 screenOptions={({route}) => ({
@@ -62,17 +51,13 @@ export default function MainContainer() {
                     tabBarInactiveTintColor: COLORS.secondary,
                     tabBarStyle: {padding: SIZES.smallMargin, height: 60},
                     tabBarLabelStyle: { paddingBottom: SIZES.smallMargin },
-                    // headerShown: false
                 })}>
-                
                 <Tab.Screen name={homeName} component={Home} />
                 <Tab.Screen name={trackerName} component={Tracker} />
                 <Tab.Screen name={addTransactionsName} component={AddTransactions} />
                 <Tab.Screen name={insightsName} component={Insights} />
                 <Tab.Screen name={infoName} component={Info} />
-
             </Tab.Navigator>
-        </NavigationContainer>
         </>
     )
 }
