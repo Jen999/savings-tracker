@@ -5,8 +5,8 @@ const inputboxStyle = StyleSheet.create({
     container: {
         width: '95%',
         alignSelf: 'center',
-        // backgroundColor: 'black',
         padding: SIZES.mediumMargin,
+        marginTop: 15,
     },
     header: {
         fontSize: SIZES.large,

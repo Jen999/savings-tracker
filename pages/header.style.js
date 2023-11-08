@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
     headerText: {
         color: COLORS.white,
         fontSize: SIZES.xLarge
+    },
+    smallText: {
+        color:COLORS.gray,
+        fontSize: SIZES.small,
+        marginBottom: SIZES.smallMargin
     }
 })
 

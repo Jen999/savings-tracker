@@ -52,7 +52,7 @@ function AddTransactions({ navigation }) {
                     headerTitleStyle: styles.headerText,
                 }}
             /> 
-            <ScrollView style={{marginTop: 30}}>
+            <ScrollView style={{marginTop: 10}}>
                 <View style={inputboxStyle.container}>
                     <Text style={inputboxStyle.header}>Date</Text>
                     {/* <TextInput 
