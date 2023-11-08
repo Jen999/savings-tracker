@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import * as Progress from 'react-native-progress';
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -7,12 +8,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { db } from '../../../Firebase/firebase';
 import { collection, onSnapshot } from "firebase/firestore";
 
+import { COLORS, SIZES } from '../../../constants';
 import styles from './goal.style'
 
 const Goal = () => {
-  const navigation = useNavigation();
+    const navigation = useNavigation();
 
-  const [transaction, setTransaction] = useState([]);
+    const [transaction, setTransaction] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -26,6 +28,8 @@ const Goal = () => {
         })
     }, [])
 
+    const goalTotal = 500.00;
+
     function calcTotal() {
       let totalSum = 0;
       for (const item of transaction) {
@@ -33,8 +37,17 @@ const Goal = () => {
       }
       return totalSum;
     }
-
     const totalAmount = calcTotal().toFixed(2);
+
+    let percentage = Number(totalAmount/goalTotal);
+    let display;
+    const exceed = (totalAmount - goalTotal).toFixed(2);
+
+    if (exceed <= 0) {
+      display = `${(percentage*100).toFixed(2)}%`
+    } else if (exceed > 0) {
+      display = `You have exceeded your budget by SGD ${exceed}!`
+    }
 
   return (
     <View style={styles.container}>
@@ -44,10 +57,18 @@ const Goal = () => {
           <Ionicons name='pencil' style={styles.headerBtn} onPress={() => navigation.navigate('Edit Goal')}/>
         </TouchableOpacity>
       </View>
-      <Text style={{ alignSelf: 'center' }}>Total Amount: SGD {totalAmount}</Text>
+      <Progress.Bar 
+        style={styles.progressBar}
+        progress={percentage} 
+        height={SIZES.medium}
+        width={325} 
+        color={COLORS.primary}
+      />
+      <Text style={(exceed > 0) ? styles.warning : styles.percentage}>{display}</Text>
+      
       <View style={styles.header}>
-          <Text>Coffee</Text>
-          <Text>SGD 130.00</Text>
+          <Text style={styles.text}>Coffee</Text>
+          <Text style={styles.amount}>SGD {totalAmount} / {goalTotal.toFixed(2)}</Text>
       </View>
       
     </View>
