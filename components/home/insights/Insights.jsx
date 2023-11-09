@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image} from 'react-native'
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 
 import styles from './insights.style'
@@ -13,8 +13,13 @@ const Insights = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Insights</Text>
-        <TouchableOpacity>
-          <Text style={styles.headerBtn} onPress={() => navigation.navigate('Insights')}>➤</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Insights')}>
+            <Image 
+            source={require('../../../assets/icons/chevron-right.png')}
+            style={{
+              height: 25,
+              width: 20,
+            }} />
         </TouchableOpacity>
       </View>
       <View>

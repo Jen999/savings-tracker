@@ -7,7 +7,7 @@ import styles from './header.style';
 import { COLORS, SIZES } from '../constants';
 import Insights from '../components/home/insights/Insights';
 import Goal from '../components/home/goal/Goal';
-import Calendar from '../components/home/calendar/Calendar';
+import CustomCalendar from '../components/home/calendar/Calendar';
 import StandardCard from '../components/common/cards/StandardCard';
 
 const Home = ({ navigation }) => {
@@ -26,7 +26,7 @@ const Home = ({ navigation }) => {
                 <StandardCard item='Day 12'/>
                 <Goal />
                 <Insights />
-                <Calendar />
+                <CustomCalendar />
             </ScrollView>
         </SafeAreaView>
     )

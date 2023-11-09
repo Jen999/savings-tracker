@@ -23,6 +23,14 @@ function Tracker({ navigation }) {
         onSnapshot(transactionQuery, (snapshot) => {
             let transactionList = [];
             snapshot.docs.map((doc) => transactionList.push({...doc.data(), id: doc.id}))
+
+            transactionList.sort((a, b) => {
+                const dateA = a.date ? new Date(a.date) : null;
+                const dateB = b.date ? new Date(b.date) : null;
+          
+                return dateB - dateA;
+            });
+
             setTransaction(transactionList);
             setLoading(false);
         })
@@ -40,11 +48,11 @@ function Tracker({ navigation }) {
 
     const renderItem = ({item}) => {
         return(
-            <TransactionBox category={item.category} amount={item.amount} id={item.id}/>
+            <TransactionBox date={item.date} category={item.category} amount={item.amount} id={item.id}/>
         );
     }
 
-    console.log(transaction);
+    // console.log(transaction);
 
     return (
         <SafeAreaView>
@@ -55,22 +63,19 @@ function Tracker({ navigation }) {
                     headerTitle: 'Tracker',
                     headerTitleStyle: styles.headerText,
                 }}
-            /> 
-            <ScrollView>
-                <Chart />
-                <StandardCard item='Nov 2023: SGD ' total={totalAmount}/>
-            </ScrollView>
-                <FlatList 
-                    data={transaction} 
-                    renderItem={renderItem} 
-                    keyExtractor={item => item.id} 
-                    style={{
-                        borderWidth: 1, 
-                        borderColor: COLORS.primary,
-                        height: 318
-                    }}
-                />
-            
+            />
+            <FlatList
+                nestedScrollEnabled={true}
+                ListHeaderComponent={() => (
+                <>
+                    <Chart />
+                    <StandardCard item='Nov 2023: SGD ' total={totalAmount}/>
+                </>
+                )}
+                data={transaction} 
+                renderItem={renderItem} 
+                keyExtractor={item => item.id}
+            />
         </SafeAreaView>
     );
 }

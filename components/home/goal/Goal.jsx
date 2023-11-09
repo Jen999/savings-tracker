@@ -14,12 +14,11 @@ import styles from './goal.style'
 
 const Goal = () => {
     const navigation = useNavigation();
-
     const [transaction, setTransaction] = useState([]);
     const [goal, setGoal] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    //Handling Goal Type and Amount
+    // Handling Goal Type and Amount
     useEffect(() => {
       setLoading(true);
       const goalQuery = collection(db, 'goal');

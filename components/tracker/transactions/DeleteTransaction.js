@@ -18,7 +18,7 @@ function DeleteTransaction({ id }) {
     return (
         <View>
             <Pressable onPress={deleteTransaction}>
-                <Ionicons name='trash' size={SIZES.large} color={COLORS.primary}/>
+                <Ionicons name='trash' size={SIZES.xLarge} color={COLORS.primary}/>
             </Pressable>
         </View>
     );
