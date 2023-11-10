@@ -33,7 +33,7 @@ const Goal = () => {
     let goalTotal;
     let goalType;
     if (goal.length > 0) {
-      goalTotal = goal[0].amount;
+      goalTotal = Number(goal[0].amount);
       goalType = goal[0].type;
     } else {
       goalTotal = 0;
@@ -76,22 +76,31 @@ const Goal = () => {
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Goal</Text>
           <TouchableOpacity>
+            {goal.length ? 
             <Ionicons name='pencil' style={styles.headerBtn} onPress={() => navigation.navigate('Edit Goal')}/>
+            : <Ionicons name='add' style={styles.headerBtn} onPress={() => navigation.navigate('Edit Goal')}/>}
+            
           </TouchableOpacity>
         </View>
-        <Progress.Bar 
-          style={styles.progressBar}
-          progress={percentage} 
-          height={SIZES.medium}
-          width={325} 
-          color={COLORS.primary}
-        />
-        <Text style={(exceed > 0) ? styles.warning : styles.percentage}>{display}</Text>
+        {goal.length ? 
+        <View>
+          <Progress.Bar 
+            style={styles.progressBar}
+            progress={percentage} 
+            height={SIZES.medium}
+            width={325} 
+            color={COLORS.primary}
+          />
+          <Text style={(exceed > 0) ? styles.warning : styles.percentage}>{display}</Text>
+          <View style={styles.goal}>
+              <Text style={styles.text}>{goalType}</Text>
+              <Text style={styles.amount}>SGD {totalAmount} / {goalTotal.toFixed(2)}</Text>
+          </View>
+        </View> :
+        <View style={{padding: SIZES.medium}}>
+          <Text style={styles.nogoal}>No Goals Added</Text>
+        </View>}
         
-        <View style={styles.header}>
-            <Text style={styles.text}>{goalType}</Text>
-            <Text style={styles.amount}>SGD {totalAmount} / {goalTotal.toFixed(2)}</Text>
-        </View>
       </View>
     )
 }

@@ -6,7 +6,7 @@ import styles from './insightscard.style'
 const InsightsCard = ({item}) => {
   return (
     <View style={styles.container}>
-      <Text>{item}</Text>
+      <Text style={styles.text}>{item}</Text>
     </View>
   )
 }

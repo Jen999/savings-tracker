@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, SHADOWS, SIZES } from "../../../constants";
+import { COLORS, FONT, SHADOWS, SIZES } from "../../../constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: 'center',
     padding: SIZES.mediumMargin,
-    margin: SIZES.medium,
+    margin: SIZES.small,
     borderRadius: SIZES.mediumMargin,
     borderColor: COLORS.secondary,
     borderWidth: 1,
@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.white,
     fontSize: SIZES.medium,
+    fontFamily: FONT.medium,
+    fontWeight: '500',
     alignSelf: 'flex-start'
   },
 });

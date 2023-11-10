@@ -5,8 +5,8 @@ const inputboxStyle = StyleSheet.create({
     container: {
         width: '95%',
         alignSelf: 'center',
-        padding: SIZES.mediumMargin,
-        marginTop: 15,
+        padding: SIZES.smallMargin,
+        marginTop: 10,
     },
     header: {
         fontSize: SIZES.large,
@@ -19,9 +19,19 @@ const inputboxStyle = StyleSheet.create({
         width: '100%',
         alignSelf: 'center',
         padding: SIZES.mediumMargin,
+        paddingLeft: SIZES.large,
         borderWidth: 1,
         borderColor: COLORS.primary,
-        borderRadius: SIZES.smallMargin
+        borderRadius: SIZES.smallMargin,
+    },
+    dropdownbox: {
+        backgroundColor: COLORS.white,
+        width: '100%',
+        alignSelf: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.primary,
+        borderRadius: SIZES.smallMargin,
+        color: COLORS.primary,
     }
 })
 

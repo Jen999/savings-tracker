@@ -1,7 +1,7 @@
 import ScreenHeaderBtn from "./common/header/ScreenHeaderBtn";
 
 // home screen
-import Welcome from "./home/welcome/Welcome";
+import Welcome from "./home/calendar/Calendar";
 import Goal from "./home/goal/Goal";
 import Insights from "./home/insights/Insights";
 

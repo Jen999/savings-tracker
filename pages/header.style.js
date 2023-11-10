@@ -7,12 +7,27 @@ const styles = StyleSheet.create({
     },
     headerText: {
         color: COLORS.white,
-        fontSize: SIZES.xLarge
+        fontSize: SIZES.xLarge,
+        fontFamily: FONT.medium,
     },
     smallText: {
-        color:COLORS.gray,
+        color: COLORS.gray,
         fontSize: SIZES.small,
+        fontFamily: FONT.medium,
         marginBottom: SIZES.smallMargin
+    },
+    subHeaders: {
+        color: COLORS.primary,
+        fontSize: SIZES.medium,
+        fontFamily: FONT.medium,
+    },
+    container: {
+        backgroundColor: COLORS.white,
+        padding: SIZES.xxLarge,
+    },
+    errorMessage: {
+        fontFamily: FONT.medium,
+        color: COLORS.red
     }
 })
 
