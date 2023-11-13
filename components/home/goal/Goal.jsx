@@ -12,7 +12,7 @@ import { COLORS, SIZES } from '../../../constants';
 import styles from './goal.style'
 
 
-const Goal = () => {
+const Goal = (today) => {
     const navigation = useNavigation();
     const [transaction, setTransaction] = useState([]);
     const [goal, setGoal] = useState([]);
@@ -55,7 +55,10 @@ const Goal = () => {
     function calcTotal() {
       let totalSum = 0;
       for (const item of transaction) {
-        totalSum += item.amount;
+        let itemDate = new Date(item.date)
+        if (itemDate.getMonth() === today.today.getMonth()) {
+          totalSum += item.amount;
+        }
       }
       return totalSum;
     }

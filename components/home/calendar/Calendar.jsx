@@ -17,7 +17,6 @@ const CustomCalendar = React.memo(({ dayPressed, markedDates }) => {
             todayBackgroundColor: COLORS.secondary,
             textMonthFontSize: SIZES.large,
             textMonthFontFamily: FONT.medium,
-            todayDotColor: COLORS.primary
           }}
           renderArrow={
             (direction) => direction === 'left' ? <Image 
@@ -28,7 +27,6 @@ const CustomCalendar = React.memo(({ dayPressed, markedDates }) => {
           enableSwipeMonths={false}
           onDayPress={(day) => dayPressed(day)}
           markedDates={markedDates}
-          
         />
       </ View>
     )

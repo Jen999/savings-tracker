@@ -9,20 +9,19 @@ const styles = StyleSheet.create({
     margin: SIZES.smallMargin,
     padding: SIZES.smallMargin,
     borderRadius: SIZES.xSmall,
-    height: 200,
+    height: 230,
     alignItems: 'center',
-    justifyContent: "center",
   },
   header: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: SIZES.smallMargin,
   },
   headerTitle: {
     fontSize: SIZES.large,
     fontFamily: FONT.medium,
     color: COLORS.primary,
+    marginTop: SIZES.mediumMargin
   },
   headerBtn: {
     fontSize: SIZES.medium,

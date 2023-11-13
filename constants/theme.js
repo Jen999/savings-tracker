@@ -10,6 +10,7 @@ const COLORS = {
   darkwhite: "#F4F4F9",
 
   teal: "#00F9C7",
+  turquoise: "#008E82",
   green: "#357960",
   red: "#C70039",
 };

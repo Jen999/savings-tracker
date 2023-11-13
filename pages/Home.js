@@ -16,6 +16,7 @@ import { COLORS, SIZES } from '../constants';
 
 const Home = ({ navigation }) => {
     const today = new Date();
+    const formattedToday = today.toISOString().split('T')[0];
     const [pressedDate, setPressedDate] = useState(null);
     const [transaction, setTransaction] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -30,8 +31,6 @@ const Home = ({ navigation }) => {
             setLoading(false);
         })
     }, []);
-
-    console.log(transaction)
 
     // Handling Pressing on day
     const handleDayPressed = (day) => {
@@ -51,7 +50,7 @@ const Home = ({ navigation }) => {
         markedDatesList.forEach((date) => {
             formattedMarkedDates[date] = { 
                 marked: true, 
-                dotColor: COLORS.primary, 
+                dotColor: (date === formattedToday) ? COLORS.tertiary : COLORS.primary, 
                 selected: date === pressedDate, 
                 selectedColor: COLORS.tertiary
             };
@@ -115,7 +114,7 @@ const Home = ({ navigation }) => {
                 ListHeaderComponent={() => (
                 <>
                     <StandardCard item={`Day ${today.getDate().toString()}`}/>
-                    <Goal />
+                    <Goal today={today}/>
                     <Insights />
                     <CustomCalendar dayPressed={handleDayPressed} markedDates={markDates()}/>
                     <Text style={{
