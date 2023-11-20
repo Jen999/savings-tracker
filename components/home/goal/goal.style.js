@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
   },
   headerBtn: {
-    fontSize: SIZES.xLarge,
+    fontSize: SIZES.large,
     color: COLORS.primary,
     marginRight: SIZES.smallMargin,
   },

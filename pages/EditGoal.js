@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { View, Alert, StyleSheet, SafeAreaView, ScrollView, Text, TextInput } from 'react-native';
+import { View, Alert, SafeAreaView, ScrollView, Text, TextInput, ActivityIndicator } from 'react-native';
 
 import { collection, doc, addDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from '../Firebase/firebase';
@@ -8,7 +8,7 @@ import styles from './header.style';
 import inputboxStyle from '../components/add/inputbox/inputbox.style';
 import SaveButton from '../components/add/savebutton/SaveButton';
 import RemoveRelatedTransaction from '../components/tracker/transactions/RemoveRelatedTransaction';
-import { COLORS } from '../constants';
+import { COLORS, SIZES } from '../constants';
 
 function EditGoal() {
     const user = auth.currentUser;
@@ -18,6 +18,7 @@ function EditGoal() {
     const [loading, setLoading] = useState(false);
     const [typeError, setTypeError] = useState('');
     const [amountError, setAmountError] = useState('');
+    const [success, setSuccess] = useState('');
 
     useEffect(() => {
       setLoading(true);
@@ -30,10 +31,12 @@ function EditGoal() {
       })
     }, [])
 
-    function handleGoal() {
+    async function handleGoal() {
+        setLoading(false);
         // Reset error messages
         setTypeError('');
         setAmountError('');
+        setSuccess('');
 
         // Add Goal
         if (goalCount.length === 0) {
@@ -52,12 +55,17 @@ function EditGoal() {
 
             try {
                 const goalDb = collection(db, `users/${user.uid}/goal`);
-                addDoc(goalDb, {
+                await addDoc(goalDb, {
                     amount: goal.amount,
                     type: goal.type,
+                }).then(() => {
+                    console.log('Goal added successfully');
+                    setSuccess('Goal added successfully!');
                 });
             } catch (error) {
                 console.log('Error adding goal: ', error)
+            } finally {
+                setLoading(false);
             }
             
         } else {    // Edit Goal
@@ -77,12 +85,17 @@ function EditGoal() {
 
             try {
                 const currGoal = doc(db, `users/${user.uid}/goal`, goalCount[0].id);
-                updateDoc(currGoal, {
+                await updateDoc(currGoal, {
                     amount: updatedAmount,
                     type: updatedType,
+                }).then(() => {
+                    console.log('Goal edited successfully');
+                    setSuccess('Goal edited successfully!');
                 });
             } catch (error) {
                 console.error('Error updating goal: ', error)
+            } finally {
+                setLoading(false);
             }
 
             // Handle clearing records after updating goal
@@ -131,7 +144,11 @@ function EditGoal() {
                         {amountError ? <Text style={styles.errorMessage}>{amountError}</Text> : null}
                 </View>
                 <View style={{marginTop: 25}}>
-                    <SaveButton item={buttonItem} onPress={handleGoal}/>
+                    {success ? <Text style={{...styles.successMessage, alignSelf: 'center'}}>{success}</Text> : null}
+                    { loading ? (<ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary}/>
+                    ) : (
+                        <SaveButton item={buttonItem} onPress={handleGoal} />
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>

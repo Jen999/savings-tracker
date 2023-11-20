@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, useRouter } from 'expo-router';
-import { View, Image, SafeAreaView, ScrollView, Text, TextInput, Pressable, Button, Modal } from 'react-native';
+import { Stack, useFocusEffect, useRouter } from 'expo-router';
+import { View, Image, SafeAreaView, ScrollView, Text, TextInput, Pressable, Button, Modal, ActivityIndicator } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 
 import styles from './header.style';
@@ -8,8 +8,6 @@ import chevStyle from '../components/home/calendar/calendar.style';
 import inputboxStyle from '../components/add/inputbox/inputbox.style';
 import SaveButton from '../components/add/savebutton/SaveButton';
 import Ionicons from "@expo/vector-icons/Ionicons";
-import CustomCalendar from '../components/home/calendar/Calendar';
-import Successful from '../components/common/notif/Successful';
 import { COLORS, SIZES, FONT } from '../constants';
 
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
@@ -27,6 +25,7 @@ function AddTransactions({ navigation }) {
     const [dateError, setDateError] = useState('');
     const [typeError, setTypeError] = useState('');
     const [amountError, setAmountError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const openCalendar = () => {
         setCalendarVisible(true);
@@ -41,12 +40,23 @@ function AddTransactions({ navigation }) {
         closeCalendar();
     };
 
+    useFocusEffect(
+        React.useCallback(() => {
+            // Reset error messages everytime toggling page
+            setTypeError('');
+            setAmountError('');
+            setDateError('');
+            setSuccess('');
+        }, [])
+    );
+
     async function addTransaction() {
+        setLoading(true);
         // Reset error messages
         setTypeError('');
         setAmountError('');
         setDateError('');
-
+        setSuccess('');
         try {
             transaction.amount = Number(transaction.amount);
             if (transaction.date === '') {
@@ -67,19 +77,21 @@ function AddTransactions({ navigation }) {
             }
             
             const transactionsDb = collection(db, `users/${user.uid}/transaction`);
-
-            addDoc(transactionsDb, {
+            await addDoc(transactionsDb, {
                 date: transaction.date,
                 amount: transaction.amount,
                 category: transaction.category,
                 notes: transaction.notes,
             }).then(() => {
                 console.log('Transaction added successfully');
+                setSuccess('Transaction added successfully!');
             }).catch((error) => {
                 console.log('Error adding transaction', error);
             });
         } catch (error) {
             console.error('Error in adding transaction', error)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -151,10 +163,8 @@ function AddTransactions({ navigation }) {
                                 todayDotColor: COLORS.primary
                               }}
                               renderArrow={
-                                (direction) => direction === 'left' ? <Image 
-                                source={require('../assets/icons/chevron-left.png')}
-                                style={chevStyle.chev} /> : <Image 
-                                source={require('../assets/icons/chevron-right.png')}
+                                (direction) => direction === 'left' ? <Ionicons name='chevron-back'
+                                style={chevStyle.chev} /> : <Ionicons name='chevron-forward'
                                 style={chevStyle.chev} />}
                         />
                     </Modal>
@@ -198,7 +208,11 @@ function AddTransactions({ navigation }) {
                     />
                 </View>
                 <View style={{marginTop: 25}}>
-                    <SaveButton item='Save' onPress={addTransaction} />
+                    {success ? <Text style={{...styles.successMessage, alignSelf: 'center'}}>{success}</Text> : null}
+                    { loading ? (<ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary}/>
+                    ) : (
+                        <SaveButton item='Save' onPress={addTransaction} />
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>

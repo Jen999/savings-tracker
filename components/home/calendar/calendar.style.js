@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     gap: SIZES.small,
   },
   chev: {
-    height: 25,
-    width: 20,
+    color: COLORS.primary, 
+    fontSize: SIZES.xLarge
   }
 });
 

@@ -82,7 +82,6 @@ const Goal = ({today, uid}) => {
             {goal.length ? 
             <Ionicons name='pencil' style={styles.headerBtn} onPress={() => navigation.navigate('Edit Goal')}/>
             : <Ionicons name='add' style={styles.headerBtn} onPress={() => navigation.navigate('Edit Goal')}/>}
-            
           </TouchableOpacity>
         </View>
         {goal.length ? 

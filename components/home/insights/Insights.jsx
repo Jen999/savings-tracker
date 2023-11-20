@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native'
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 
 import styles from './insights.style';
-import { SIZES } from '../../../constants';
+import { COLORS, SIZES } from '../../../constants';
 import InsightsCard from '../../common/cards/insights/InsightsCard';
 
 import { collection, onSnapshot } from "firebase/firestore";
@@ -64,12 +65,7 @@ const Insights = ({uid}) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Insights</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Insights')}>
-            <Image 
-            source={require('../../../assets/icons/chevron-right.png')}
-            style={{
-              height: 25,
-              width: 20,
-            }} />
+            <Ionicons name='chevron-forward' style={{color: COLORS.primary, fontSize: SIZES.xLarge}}/>
         </TouchableOpacity>
       </View>
       {insightItems.length > 0 ?

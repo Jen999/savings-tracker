@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 import styles from './calendar.style';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS, FONT, SIZES } from '../../../constants';
 
 const CustomCalendar = React.memo(({ handleDayPressed, markedDates }) => {
@@ -20,9 +21,9 @@ const CustomCalendar = React.memo(({ handleDayPressed, markedDates }) => {
           }}
           renderArrow={ (direction) => 
             direction === 'left' ? (
-              <Image source={require('../../../assets/icons/chevron-left.png')} style={styles.chev} />
+              <Ionicons name='chevron-back' style={styles.chev} />
             ) : (
-             <Image source={require('../../../assets/icons/chevron-right.png')} style={styles.chev} />
+             <Ionicons name='chevron-forward' style={styles.chev} />
             )
           }
           enableSwipeMonths={false}

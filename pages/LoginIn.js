@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator, Button, KeyboardAvoidingView } from 'react-native';
+import { View, Text, ActivityIndicator, Button, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { collection, addDoc, onSnapshot, doc, setDoc } from "firebase/firestore";
 import { auth, db } from '../Firebase/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 import inputboxStyle from '../components/add/inputbox/inputbox.style';
+import { COLORS, FONT, SIZES } from '../constants';
 import styles from './header.style';
 
 
 function LoginIn(props) {
+    const [hidePass, setHidePass] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -50,36 +53,84 @@ function LoginIn(props) {
 
 
     return (
-        <SafeAreaView>
-            <View style={inputboxStyle.container}>
-                <KeyboardAvoidingView behavior='padding'>
-                    <Text>Log In</Text>
+        <SafeAreaView style={{backgroundColor: COLORS.white}}>
+            <View style={{marginTop: 50, backgroundColor: COLORS.white, height: '100%'}}>
+                <Image 
+                    source={require('../assets/images/SpendingTracker_white.png')} 
+                    style={{
+                        resizeMode: 'contain',
+                        height: 100,
+                        width: '70%',
+                        alignSelf: 'center',
+                        marginBottom: 20,
+                    }}
+                />
+                <View style={inputboxStyle.container}>
+                    <Text style={{...inputboxStyle.header, marginBottom: SIZES.medium}}>Welcome</Text>
                     <TextInput 
                         style={inputboxStyle.inputbox}
-                        placeholder='email' 
+                        placeholder='Email' 
                         autoCapitalize='none'
                         value={email}
                         onChangeText={(text) => setEmail(text)}
                     />
+                </View>
+                <View style={{...inputboxStyle.container, justifyContent: 'center'}}>
                     <TextInput 
                         style={inputboxStyle.inputbox}
-                        placeholder='password' 
+                        placeholder='Password' 
                         autoCapitalize='none'
-                        secureTextEntry={true}
+                        secureTextEntry={hidePass ? true : false}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                     />
-                    { loading ? (<ActivityIndicator size="large" color='black'/>
+                    <Ionicons name={hidePass ? 'eye' : 'eye-off'} 
+                        style={{
+                            color: COLORS.gray2,
+                            position: 'absolute',
+                            alignSelf: 'flex-end',
+                            right: SIZES.xLarge,
+                            fontSize: SIZES.large,
+                        }} 
+                        onPress={() => setHidePass(!hidePass)}
+                    />
+                </View>
+                <View style={inputboxStyle.container}>
+                    { loading ? (<ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary}/>
                     ) : ( 
-                        <>
-                        <Button title='Login' onPress={signIn} />
-                        <Button title='Create Account' onPress={signUp} />
-                        </>
+                        <View >
+                            <TouchableOpacity style={loginStyles.container} onPress={signIn}>
+                                <Text style={loginStyles.button}>LOGIN</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={loginStyles.container} onPress={signUp}>
+                                <Text style={loginStyles.button}>CREATE ACCOUNT</Text>
+                            </TouchableOpacity>
+                        </View>
                     )}
-                </KeyboardAvoidingView>
+                </View>
             </View>
         </SafeAreaView>
     );
 }
+
+const loginStyles = StyleSheet.create({
+    container: {
+        color: COLORS.primary, 
+        alignSelf: 'center',
+        alignItems: 'center',
+        width: '70%',
+        borderRadius: SIZES.small,
+        marginTop: SIZES.large,
+        padding: SIZES.small,
+        backgroundColor: COLORS.secondary
+    },
+    button: {
+        color: COLORS.white,
+        fontFamily: FONT.medium,
+        fontSize: SIZES.smallmed,
+        fontWeight: '700',
+        borderRadius: SIZES.small
+    }
+})
 
 export default LoginIn;

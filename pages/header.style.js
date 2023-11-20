@@ -28,6 +28,10 @@ const styles = StyleSheet.create({
     errorMessage: {
         fontFamily: FONT.medium,
         color: COLORS.red
+    },
+    successMessage: {
+        fontFamily: FONT.medium,
+        color: COLORS.green
     }
 })
 
