@@ -5,7 +5,7 @@ import { Calendar } from 'react-native-calendars';
 import styles from './calendar.style';
 import { COLORS, FONT, SIZES } from '../../../constants';
 
-const CustomCalendar = React.memo(({ dayPressed, markedDates }) => {
+const CustomCalendar = React.memo(({ handleDayPressed, markedDates }) => {
 
     console.log('markedDates: ',markedDates);
     return (
@@ -18,14 +18,15 @@ const CustomCalendar = React.memo(({ dayPressed, markedDates }) => {
             textMonthFontSize: SIZES.large,
             textMonthFontFamily: FONT.medium,
           }}
-          renderArrow={
-            (direction) => direction === 'left' ? <Image 
-            source={require('../../../assets/icons/chevron-left.png')}
-            style={styles.chev} /> : <Image 
-            source={require('../../../assets/icons/chevron-right.png')}
-            style={styles.chev} />}
+          renderArrow={ (direction) => 
+            direction === 'left' ? (
+              <Image source={require('../../../assets/icons/chevron-left.png')} style={styles.chev} />
+            ) : (
+             <Image source={require('../../../assets/icons/chevron-right.png')} style={styles.chev} />
+            )
+          }
           enableSwipeMonths={false}
-          onDayPress={(day) => dayPressed(day)}
+          onDayPress={(day) => handleDayPressed(day.dateString)}
           markedDates={markedDates}
         />
       </ View>

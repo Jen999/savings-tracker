@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { View, Alert, StyleSheet, SafeAreaView, ScrollView, Text, TextInput } from 'react-native';
 
 import { collection, doc, addDoc, updateDoc, onSnapshot } from "firebase/firestore";
-import { db } from '../Firebase/firebase';
+import { auth, db } from '../Firebase/firebase';
 import styles from './header.style';
 import inputboxStyle from '../components/add/inputbox/inputbox.style';
 import SaveButton from '../components/add/savebutton/SaveButton';
@@ -11,7 +11,8 @@ import RemoveRelatedTransaction from '../components/tracker/transactions/RemoveR
 import { COLORS } from '../constants';
 
 function EditGoal() {
-
+    const user = auth.currentUser;
+    console.log(user.uid)
     const [goal, setGoal] = useState({type: undefined, amount: undefined});
     const [goalCount, setGoalCount] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ function EditGoal() {
 
     useEffect(() => {
       setLoading(true);
-      const goalQuery = collection(db, 'goal');
+      const goalQuery = collection(db, `users/${user.uid}/goal`);
       onSnapshot(goalQuery, (snapshot) => {
           let goalList = [];
           snapshot.docs.map((doc) => goalList.push({...doc.data(), id: doc.id}))
@@ -50,7 +51,7 @@ function EditGoal() {
             }
 
             try {
-                const goalDb = collection(db, 'goal');
+                const goalDb = collection(db, `users/${user.uid}/goal`);
                 addDoc(goalDb, {
                     amount: goal.amount,
                     type: goal.type,
@@ -75,7 +76,7 @@ function EditGoal() {
             }
 
             try {
-                const currGoal = doc(db, 'goal', goalCount[0].id);
+                const currGoal = doc(db, `users/${user.uid}/goal`, goalCount[0].id);
                 updateDoc(currGoal, {
                     amount: updatedAmount,
                     type: updatedType,

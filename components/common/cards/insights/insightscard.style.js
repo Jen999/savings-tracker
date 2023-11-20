@@ -5,19 +5,34 @@ import { COLORS, SHADOWS, SIZES, FONT } from "../../../../constants";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
     padding: SIZES.xSmall,
     margin: SIZES.smallMargin,
-    borderRadius: SIZES.xSmall,
+    borderRadius: SIZES.smallMargin,
     borderColor: COLORS.primary,
     borderWidth: 1,
-    backgroundColor: COLORS.darkwhite,
-    ...SHADOWS.small,
+    backgroundColor: COLORS.white,
+  },
+  header: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    marginBottom: SIZES.smallMargin
   },
   text: {
     fontFamily: FONT.medium,
+  },
+  promptRed: {
+    fontFamily: FONT.medium,
+    fontWeight: '700',
+    color: COLORS.red,
+  },
+  promptGreen: {
+    fontFamily: FONT.medium,
+    fontWeight: '700',
+    color: COLORS.green
+  },
+  date: {
+    fontFamily: FONT.medium,
+    fontWeight: '700',
   },
 });
 

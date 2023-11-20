@@ -13,11 +13,13 @@ import Successful from '../components/common/notif/Successful';
 import { COLORS, SIZES, FONT } from '../constants';
 
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db } from '../Firebase/firebase';
+import { auth, db } from '../Firebase/firebase';
 import { Calendar } from 'react-native-calendars';
 
 
 function AddTransactions({ navigation }) {
+    const user = auth.currentUser;
+    console.log(user.uid)
     const [transaction, setTransaction] = useState({date: '', amount: '', category: '', notes:''});
     const [goal, setGoal] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -64,7 +66,7 @@ function AddTransactions({ navigation }) {
                 return;
             }
             
-            const transactionsDb = collection(db, 'transaction');
+            const transactionsDb = collection(db, `users/${user.uid}/transaction`);
 
             addDoc(transactionsDb, {
                 date: transaction.date,
@@ -84,7 +86,7 @@ function AddTransactions({ navigation }) {
     // Handling Dropdown List Goal Type
     useEffect(() => {
         setLoading(true);
-        const goalQuery = collection(db, 'goal');
+        const goalQuery = collection(db, `users/${user.uid}/goal`);
         onSnapshot(goalQuery, (snapshot) => {
             let goalList = [];
             snapshot.docs.map((doc) => goalList.push({...doc.data(), id: doc.id}))

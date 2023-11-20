@@ -3,20 +3,22 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryScatter, VictoryLabel } from 'victory-native';
 
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from '../../../Firebase/firebase';
+import { auth, db } from '../../../Firebase/firebase';
 
 import styles from './chart.style'
 import { SIZES, COLORS } from '../../../constants';
 
 
 const Chart = (transactions) => {
+  const user = auth.currentUser;
+  console.log(user.uid)
   const [goal, setGoal] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Reading Goal
   useEffect(() => {
     setLoading(true);
-    const goalQuery = collection(db, 'goal');
+    const goalQuery = collection(db, `users/${user.uid}/goal`);
     onSnapshot(goalQuery, (snapshot) => {
         let goalList = [];
         snapshot.docs.map((doc) => goalList.push({...doc.data(), id: doc.id}))

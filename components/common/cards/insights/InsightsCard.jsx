@@ -3,10 +3,19 @@ import { View, Text } from 'react-native'
 
 import styles from './insightscard.style'
 
-const InsightsCard = ({item}) => {
+const InsightsCard = ({date, insight, prompt, id}) => {
+
+  const warning = ['Oh no! ', 'Watch out! ', 'Uh-oh... '];
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{item}</Text>
+    <View>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={warning.includes(prompt) ? styles.promptRed : styles.promptGreen}>{prompt}</Text>
+          <Text style={styles.date}>{date}</Text>
+        </View>
+        <Text style={{...styles.text, }}>{insight}</Text>
+      </View>
     </View>
   )
 }

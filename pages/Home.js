@@ -11,19 +11,32 @@ import StandardCard from '../components/common/cards/StandardCard';
 import TransactionBox from '../components/tracker/transactions/transactionbox/TransactionBox';
 
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from '../Firebase/firebase';
+import { auth, db } from '../Firebase/firebase';
 import { COLORS, SIZES } from '../constants';
 
 const Home = ({ navigation }) => {
+    const user = auth.currentUser;
+    console.log(user.uid)
     const today = new Date();
-    const formattedToday = today.toISOString().split('T')[0];
+    const sgTimeString = today.toLocaleString('en-UK', { timeZone: 'Asia/Singapore' });
+    const [sgDate, sgTime] = sgTimeString.split(',');
     const [pressedDate, setPressedDate] = useState(null);
     const [transaction, setTransaction] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    function convertDate(date) {
+        const [day, month, year] = date.split('/');
+        const dateString = [year, month, day].join('-');
+        return dateString;
+    };
+    const sgString = convertDate(sgDate);
+    const sgToday = new Date(sgString);
+
+    
+
     useEffect(() => {
         setLoading(true);
-        const transactionQuery = collection(db, 'transaction');
+        const transactionQuery = collection(db, `users/${user.uid}/transaction`);
         onSnapshot(transactionQuery, (snapshot) => {
             let transactionList = [];
             snapshot.docs.map((doc) => transactionList.push({...doc.data(), id: doc.id}))
@@ -33,9 +46,8 @@ const Home = ({ navigation }) => {
     }, []);
 
     // Handling Pressing on day
-    const handleDayPressed = (day) => {
-        const selectedDate = day.dateString
-        setPressedDate(selectedDate);
+    const handleDayPressed = (date) => {
+        setPressedDate(date);
     }
 
     // Handling Marking of days with transactions and Marking of selected date
@@ -50,7 +62,7 @@ const Home = ({ navigation }) => {
         markedDatesList.forEach((date) => {
             formattedMarkedDates[date] = { 
                 marked: true, 
-                dotColor: (date === formattedToday) ? COLORS.tertiary : COLORS.primary, 
+                dotColor: (date === sgString) ? COLORS.tertiary : COLORS.primary, 
                 selected: date === pressedDate, 
                 selectedColor: COLORS.tertiary
             };
@@ -113,16 +125,16 @@ const Home = ({ navigation }) => {
                 nestedScrollEnabled={true}
                 ListHeaderComponent={() => (
                 <>
-                    <StandardCard item={`Day ${today.getDate().toString()}`}/>
-                    <Goal today={today}/>
-                    <Insights />
-                    <CustomCalendar dayPressed={handleDayPressed} markedDates={markDates()}/>
+                    <StandardCard item={`Day ${sgToday.getDate().toString()}`}/>
+                    <Goal today={sgToday} uid={user.uid}/>
+                    <Insights uid={user.uid}/>
+                    <CustomCalendar handleDayPressed={handleDayPressed} markedDates={markDates()}/>
                     <Text style={{
                         ...styles.subHeaders, 
                         alignSelf: 'center',
                         marginTop: SIZES.small,
                         marginBottom: SIZES.small,
-                    }}>Recorded Spendings on {pressedDate ? formatDate(pressedDate) : formatDate(today)}</Text>
+                    }}> {pressedDate ? `Recorded Spendings on ${formatDate(pressedDate)}` : 'Select Date to view Spendings'}</Text>
                     {dataPresent()}
                 </>
                 )}

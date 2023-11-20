@@ -1,8 +1,12 @@
 import React from 'react';
 import { Stack, useRouter } from 'expo-router';
-import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text, Button } from 'react-native';
 
+import { NavigationProp } from '@react-navigation/native';
+import { auth } from '../Firebase/firebase';
 import styles from './header.style';
+
+
 
 function Info({ navigation }) {
     return (
@@ -16,7 +20,7 @@ function Info({ navigation }) {
                 }}
             /> 
             <ScrollView>
-                
+                <Button onPress={() => auth.signOut()} title='Log Out'/>
             </ScrollView>
         </SafeAreaView>
     );

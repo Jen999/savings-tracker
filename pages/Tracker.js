@@ -7,20 +7,33 @@ import Chart from '../components/tracker/chart/Chart';
 import StandardCard from '../components/common/cards/StandardCard';
 
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from '../Firebase/firebase';
+import { auth, db } from '../Firebase/firebase';
 import TransactionBox from '../components/tracker/transactions/transactionbox/TransactionBox';
 import RemoveRelatedTransaction from '../components/tracker/transactions/RemoveRelatedTransaction';
 
 import { COLORS, SIZES } from '../constants';
+import ClearAll from '../components/common/cards/ClearAll';
 
 function Tracker({ navigation }) {
+    const user = auth.currentUser;
+    console.log(user.uid)
     const today = new Date();
+    const sgTimeString = today.toLocaleString('en-UK', { timeZone: 'Asia/Singapore' });
+    const [sgDate, sgTime] = sgTimeString.split(',');
     const [transaction, setTransaction] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    function convertDate(date) {
+        const [day, month, year] = date.split('/');
+        const dateString = [year, month, day].join('-');
+        return dateString;
+    };
+    const sgString = convertDate(sgDate);
+    const sgToday = new Date(sgString);
+
     useEffect(() => {
         setLoading(true);
-        const transactionQuery = collection(db, 'transaction');
+        const transactionQuery = collection(db, `users/${user.uid}/transaction`);
         onSnapshot(transactionQuery, (snapshot) => {
             let transactionList = [];
             snapshot.docs.map((doc) => transactionList.push({...doc.data(), id: doc.id}))
@@ -30,7 +43,6 @@ function Tracker({ navigation }) {
                 const dateB = b.date ? new Date(b.date) : null;
                 return dateB - dateA;
             });
-
             setTransaction(transactionList);
             setLoading(false);
         })
@@ -40,7 +52,7 @@ function Tracker({ navigation }) {
         let totalSum = 0;
         for (const item of transaction) {
           let itemDate = new Date(item.date)
-          if (itemDate.getMonth() === today.getMonth()) {
+          if (itemDate.getMonth() === sgToday.getMonth()) {
             totalSum += item.amount;
           }
         }
@@ -54,7 +66,7 @@ function Tracker({ navigation }) {
         );
     }
 
-    // Handle Clear all
+    // Handle Clear all transactions
     const handleClearAllPress = () => {
         Alert.alert(
           'Confirm Clear All Transactions',
@@ -104,26 +116,12 @@ function Tracker({ navigation }) {
             <FlatList
                 nestedScrollEnabled={true}
                 ListHeaderComponent={() => (
-                <>
+                    <>
                     <Chart transaction={transaction}/>
                     <StandardCard item='Nov 2023: SGD ' total={totalAmount}/>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row', 
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginRight: SIZES.medium, 
-                        marginLeft: SIZES.medium,
-                        marginBottom: SIZES.smallMargin,
-                    }}>
-                        <Text style={styles.subHeaders}>All Recorded Spendings</Text>
-                        <Text 
-                            style={{...styles.smallText, marginTop: 7}}
-                            onPress={() => handleClearAllPress()}
-                        >Clear all</Text>
-                    </View>
+                    <ClearAll header='All Recorded Spendings' handlePress={handleClearAllPress}/>
                     {dataPresent()}
-                </>
+                    </>
                 )}
                 data={transaction} 
                 renderItem={renderItem} 

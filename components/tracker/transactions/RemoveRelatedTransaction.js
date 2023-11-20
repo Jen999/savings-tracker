@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { doc, query, where, getDocs, deleteDoc, collection } from "firebase/firestore";
-import { db } from '../../../Firebase/firebase';
+import { auth, db } from '../../../Firebase/firebase';
 
 
 const RemoveRelatedTransaction = async (categoryToDelete) => {
+    const user = auth.currentUser;
+
     try {
-        const transactionCollection = collection(db, 'transaction');
+        const transactionCollection = collection(db, `users/${user.uid}/transaction`);
         const q = categoryToDelete ? query(transactionCollection, where('category', '==', categoryToDelete)) : transactionCollection;
     
         const querySnapshot = await getDocs(q);

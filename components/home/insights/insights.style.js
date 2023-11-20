@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     fontFamily: FONT.medium,
     color: COLORS.primary,
   },
+  subHeaders: {
+    color: COLORS.primary,
+    fontSize: SIZES.medium,
+    fontFamily: FONT.medium,
+  },
   headerBtn: {
     fontSize: SIZES.medium,
     fontFamily: FONT.medium,

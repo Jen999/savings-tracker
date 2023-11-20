@@ -25,6 +25,7 @@ const Stack = createNativeStackNavigator();
 
 export default function MainContainer({navigation}) {
 
+    // console.log(userid);
     return (
         <>
             <Tab.Navigator

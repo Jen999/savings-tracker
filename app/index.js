@@ -6,24 +6,37 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import MainContainer from './mainContainer';
 import EditGoal from '../pages/EditGoal';
+import LoginIn from '../pages/LoginIn';
 import styles from '../pages/header.style';
 import { COLORS } from '../constants';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../Firebase/firebase';
 
 
-const mainPage = 'MainContainer';
+const initialPage = 'LogIn';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            console.log('user:', user);
+            setUser(user);
+        });
+    }, []);
 
     return (
         <NavigationContainer independent={true}>
             <Stack.Navigator 
-                initialRouteName={mainPage}
+                initialRouteName={initialPage}
                 screenOptions={{headerShown: false}}>
+                {user ? (<>
                 <Stack.Screen 
                     name='MainContainer' 
-                    component={MainContainer} />
+                    component={MainContainer} 
+                />
                 <Stack.Screen 
                     name='Edit Goal' 
                     component={EditGoal} 
@@ -33,7 +46,15 @@ const App = () => {
                         headerShadowVisible: true,
                         headerTitle: 'Edit Goal',
                         headerTitleStyle: styles.headerText,
-                    }}/>
+                    }}
+                />
+                </>) : (
+                <Stack.Screen 
+                    name='LogIn'
+                    component={LoginIn}
+                />)}
+                
+                
             </Stack.Navigator>
         </NavigationContainer>
     )

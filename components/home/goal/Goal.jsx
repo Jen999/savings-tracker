@@ -6,13 +6,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { db } from '../../../Firebase/firebase';
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, doc } from "firebase/firestore";
 
 import { COLORS, SIZES } from '../../../constants';
 import styles from './goal.style'
 
 
-const Goal = (today) => {
+const Goal = ({today, uid}) => {
     const navigation = useNavigation();
     const [transaction, setTransaction] = useState([]);
     const [goal, setGoal] = useState([]);
@@ -21,7 +21,7 @@ const Goal = (today) => {
     // Handling Goal Type and Amount
     useEffect(() => {
       setLoading(true);
-      const goalQuery = collection(db, 'goal');
+      const goalQuery = collection(db, `users/${uid}/goal`);
       onSnapshot(goalQuery, (snapshot) => {
           let goalList = [];
           snapshot.docs.map((doc) => goalList.push({...doc.data(), id: doc.id}))
@@ -43,7 +43,7 @@ const Goal = (today) => {
     // Handling Transaction Data
     useEffect(() => {
         setLoading(true);
-        const transactionQuery = collection(db, 'transaction');
+        const transactionQuery = collection(db, `users/${uid}/transaction`);
         onSnapshot(transactionQuery, (snapshot) => {
             let transactionList = [];
             snapshot.docs.map((doc) => transactionList.push({...doc.data(), id: doc.id}))
@@ -56,7 +56,7 @@ const Goal = (today) => {
       let totalSum = 0;
       for (const item of transaction) {
         let itemDate = new Date(item.date)
-        if (itemDate.getMonth() === today.today.getMonth()) {
+        if (itemDate.getMonth() === today.getMonth()) {
           totalSum += item.amount;
         }
       }
