@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, useFocusEffect, useRouter } from 'expo-router';
-import { View, Image, SafeAreaView, ScrollView, Text, TextInput, Pressable, Button, Modal, ActivityIndicator } from 'react-native';
+import { View, Image, SafeAreaView, ScrollView, Text, TextInput, Modal, ActivityIndicator } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 
 import styles from './header.style';

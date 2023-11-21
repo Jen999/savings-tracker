@@ -80,7 +80,7 @@ const Home = ({ navigation }) => {
     const renderItem = ({item}) => {
         if (pressedDate && item.date === pressedDate) {
             return(
-            <TransactionBox date={item.date} category={item.category} amount={item.amount} id={item.id}/>
+                <TransactionBox date={item.date} category={item.category} amount={item.amount} notes={item.notes} id={item.id}/>
             );
         } else {
             return null;

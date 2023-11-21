@@ -13,9 +13,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   header: {
-    flexDirection: 'row', 
+    flexDirection: 'column', 
     justifyContent: 'space-between',
-    marginBottom: SIZES.smallMargin
   },
   text: {
     fontFamily: FONT.medium,
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
   date: {
     fontFamily: FONT.medium,
     fontWeight: '700',
+    marginBottom: SIZES.smallMargin
   },
 });
 

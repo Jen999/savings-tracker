@@ -10,11 +10,11 @@ import { SIZES, COLORS } from '../../../constants';
 
 function DeleteTransaction({ id }) {
     const user = auth.currentUser;
-    console.log(user.uid)
+    console.log(user.uid);
 
     function deleteTransaction() {
         const transaction = doc(db, `users/${user.uid}/transaction`, id);
-        deleteDoc(transaction)
+        deleteDoc(transaction);
     }
 
     return (

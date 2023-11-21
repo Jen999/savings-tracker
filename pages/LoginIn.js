@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ActivityIndicator, Button, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
+import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { collection, addDoc, onSnapshot, doc, setDoc } from "firebase/firestore";
@@ -13,16 +14,31 @@ import { COLORS, FONT, SIZES } from '../constants';
 import styles from './header.style';
 
 
-function LoginIn(props) {
+function LoginIn() {
+    const navigation = useNavigation();
     const [hidePass, setHidePass] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     // Logging into existing account
     const signIn = async () => {
         setLoading(true);
+        // Reset error messages
+        setEmailError('');
+        setPasswordError('');
+
         try {
+            if (email === '') {
+                setEmailError('This is a required field.');
+                return;
+            }
+            if (password === '') {
+                setPasswordError('This is a required field.');
+                return;
+            }
             const response = await signInWithEmailAndPassword(auth, email, password);
             console.log(response);
         } catch (error) {
@@ -36,7 +52,21 @@ function LoginIn(props) {
     // Creating new account
     const signUp = async () => {
         setLoading(true);
+        // Reset error messages
+        setEmailError('');
+        setPasswordError('');
+
         try {
+            if (email === '') {
+                setEmailError('This is a required field.');
+                alert('Enter a valid email address and password above before clicking on "Create Account".');
+                return;
+            }
+            if (password === '') {
+                setPasswordError('This is a required field.');
+                alert('Enter a valid email address and password above before clicking on "Create Account".');
+                return;
+            }
             const response = await createUserWithEmailAndPassword(auth, email, password).then(user => {
                 setDoc(doc(db, 'users', user.user.uid), {
                     email: user.user.email,
@@ -45,7 +75,7 @@ function LoginIn(props) {
             console.log(response);
         } catch (error) {
             console.log(error);
-            alert('Sign Up failed: ' + error.message)
+            alert('Sign Up failed: ' + error.message);
         } finally {
             setLoading(false);
         }
@@ -74,6 +104,7 @@ function LoginIn(props) {
                         value={email}
                         onChangeText={(text) => setEmail(text)}
                     />
+                    {emailError ? <Text style={styles.errorMessage}>{emailError}</Text> : null}
                 </View>
                 <View style={{...inputboxStyle.container, justifyContent: 'center'}}>
                     <TextInput 
@@ -94,11 +125,18 @@ function LoginIn(props) {
                         }} 
                         onPress={() => setHidePass(!hidePass)}
                     />
+                    {passwordError ? <Text style={styles.errorMessage}>{passwordError}</Text> : null}
+                </View>
+                <View>
+                    <Text 
+                        style={{...styles.smallText, textDecorationLine: 'underline', margin: SIZES.smallmed}}
+                        onPress={() => navigation.navigate('Reset Password')}
+                    >Forgot Password?</Text>
                 </View>
                 <View style={inputboxStyle.container}>
                     { loading ? (<ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary}/>
                     ) : ( 
-                        <View >
+                        <View>
                             <TouchableOpacity style={loginStyles.container} onPress={signIn}>
                                 <Text style={loginStyles.button}>LOGIN</Text>
                             </TouchableOpacity>

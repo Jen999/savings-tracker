@@ -10,7 +10,6 @@ import { COLORS, FONT, SIZES } from '../constants';
 
 function Info({ navigation }) {
     const user = auth.currentUser;
-    console.log(user.uid)
     const [darkmode, setDarkmode] = useState(false);
 
     return (
@@ -26,35 +25,57 @@ function Info({ navigation }) {
             <ScrollView>
                 <Text style={settingStyles.header}>General</Text>
                 <View style={settingStyles.container}>
-                    <View style={settingStyles.inner}>
-                        <Ionicons name='person-sharp' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
-                        <Text style={settingStyles.text}>Account Info</Text>
+                    <View style={settingStyles.middle}>
+                        <View style={settingStyles.inner}>
+                            <Ionicons name='person-sharp' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
+                            <Text style={settingStyles.text}>Account Info</Text>
+                        </View>
+                        {/* <Ionicons name='chevron-forward' style={{...settingStyles.icon, fontSize: SIZES.xLarge}}/> */}
                     </View>
-                    <Ionicons name='chevron-forward' style={{...settingStyles.icon, fontSize: SIZES.xLarge}}/>
+                    <Text style={{...styles.smallText, marginLeft: SIZES.small}}>Email: {user.email}</Text>
+                    <Text style={{...styles.smallText, marginLeft: SIZES.small}}>User ID: {user.uid}</Text>
                 </View>
                 <View style={settingStyles.container}>
-                    <View style={settingStyles.inner}>
-                        <Ionicons name='moon' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
-                        <Text style={settingStyles.text}>Dark Mode</Text>
+                    <View style={settingStyles.middle}>
+                        <View style={settingStyles.inner}>
+                            <Ionicons name='moon' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
+                            <Text style={settingStyles.text}>Dark Mode</Text>
+                        </View>
+                        <Ionicons 
+                            name='toggle'
+                            style={darkmode ? {...settingStyles.icon, fontSize: SIZES.xLarge, color: COLORS.tertiary} 
+                                : {...settingStyles.icon, fontSize: SIZES.xLarge, transform: [{rotateY: '180deg'}]}}
+                            onPress={() => setDarkmode(!darkmode)}
+                        />
                     </View>
-                    <Ionicons 
-                        name='toggle'
-                        style={darkmode ? {...settingStyles.icon, fontSize: SIZES.xLarge, color: COLORS.tertiary} 
-                            : {...settingStyles.icon, fontSize: SIZES.xLarge, transform: [{rotateY: '180deg'}]}}
-                        onPress={() => setDarkmode(!darkmode)}
-                    />
                 </View>
                 <Text style={settingStyles.header}>Support</Text>
                 <View style={settingStyles.container}>
-                    <View style={settingStyles.inner}>
-                        <Ionicons name='help-circle-outline' style={{
-                        color: COLORS.primary, 
-                        marginLeft: SIZES.xSmall,
-                        marginRight: SIZES.xSmall, 
-                        fontSize: SIZES.xLarge }}/>
-                        <Text style={settingStyles.text}>Contact Us</Text>
+                    <View style={settingStyles.middle}>
+                        <View style={settingStyles.inner}>
+                            <Ionicons name='information-circle' style={{
+                            color: COLORS.primary, 
+                            marginLeft: SIZES.xSmall,
+                            marginRight: SIZES.xSmall, 
+                            fontSize: SIZES.xLarge }}/>
+                            <Text style={settingStyles.text}>About</Text>
+                        </View>
                     </View>
-                    <Ionicons name='chevron-forward' style={{...settingStyles.icon, fontSize: SIZES.xLarge}}/>
+                    <Text style={{...styles.smallText, marginLeft: SIZES.small}}>Version: 1.0.0</Text>
+                </View>
+                <View style={settingStyles.container}>
+                    <View style={settingStyles.middle}>
+                        <View style={settingStyles.inner}>
+                            <Ionicons name='help-circle-outline' style={{
+                            color: COLORS.primary, 
+                            marginLeft: SIZES.xSmall,
+                            marginRight: SIZES.xSmall, 
+                            fontSize: SIZES.xLarge }}/>
+                            <Text style={settingStyles.text}>Contact Us</Text>
+                        </View>
+                        {/* <Ionicons name='chevron-forward' style={{...settingStyles.icon, fontSize: SIZES.xLarge}}/> */}
+                    </View>
+                    <Text style={{...styles.smallText, marginLeft: SIZES.small}}>Contact Email: tanlingjen.tlj@gmail.com</Text>
                 </View>
                 <TouchableOpacity style={settingStyles.buttonContainer} onPress={() => auth.signOut()}>
                     <Text style={settingStyles.button}>LOG OUT</Text>
@@ -66,14 +87,17 @@ function Info({ navigation }) {
 
 const settingStyles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
         backgroundColor: COLORS.white,
         borderWidth: 0.2,
         borderColor: COLORS.primary,
-        paddingTop: SIZES.small,
-        paddingBottom: SIZES.small,
+        paddingTop: SIZES.mediumMargin,
+        paddingBottom: SIZES.mediumMargin,
+    },
+    middle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: SIZES.smallMargin,
     },
     inner: {
         alignItems: 'center',

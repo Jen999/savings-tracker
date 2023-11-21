@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import MainContainer from './mainContainer';
 import EditGoal from '../pages/EditGoal';
 import LoginIn from '../pages/LoginIn';
+import ForgotPassword from '../pages/ForgotPassword';
 import styles from '../pages/header.style';
 import { COLORS } from '../constants';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -48,11 +49,23 @@ const App = () => {
                         headerTitleStyle: styles.headerText,
                     }}
                 />
-                </>) : (
+                </>) : (<>
                 <Stack.Screen 
                     name='LogIn'
                     component={LoginIn}
-                />)}
+                />
+                <Stack.Screen 
+                    name='Reset Password'
+                    component={ForgotPassword}
+                    options={{
+                        headerShown: true,
+                        headerStyle: {backgroundColor: COLORS.secondary},
+                        headerShadowVisible: true,
+                        headerTitle: 'Reset Password',
+                        headerTitleStyle: styles.headerText,
+                    }}
+                />
+                </>)}
                 
                 
             </Stack.Navigator>
