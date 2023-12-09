@@ -7,7 +7,19 @@
     "plugins": [
       "expo-router"
     ],
-    "name": "SavingsTracker",
-    "slug": "SavingsTracker"
+    "name": "Spending Tracker",
+    "slug": "SavingsTracker",
+    "icon": "./assets/SpendingTrackerIcon.png",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7bf8f35e-949b-4ba8-9d80-2d62b9e007d3"
+      }
+    },
+    "android": {
+      "package": "com.jen999.SavingsTracker"
+    }
   }
 }

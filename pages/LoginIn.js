@@ -51,13 +51,12 @@ function LoginIn() {
 
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white}}>
-            <View style={{marginTop: 50, backgroundColor: COLORS.white, height: '100%'}}>
+            <View style={{marginTop: 70, backgroundColor: COLORS.white, height: '100%'}}>
                 <Image 
-                    source={require('../assets/images/SpendingTracker_white.png')} 
+                    source={require('../assets/images/SpendingTrackerLogo-Login.jpg')} 
                     style={{
                         resizeMode: 'contain',
                         height: 100,
-                        width: '70%',
                         alignSelf: 'center',
                         marginBottom: 20,
                     }}

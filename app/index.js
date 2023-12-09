@@ -14,7 +14,6 @@ import { COLORS } from '../constants';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../Firebase/firebase';
 
-
 const initialPage = 'LogIn';
 
 const Stack = createNativeStackNavigator();
