@@ -21,17 +21,18 @@ const styles = StyleSheet.create({
   },
   promptRed: {
     fontFamily: FONT.medium,
-    fontWeight: '700',
+    fontWeight: '400',
     color: COLORS.red,
   },
   promptGreen: {
     fontFamily: FONT.medium,
-    fontWeight: '700',
+    fontWeight: '400',
     color: COLORS.green
   },
   date: {
     fontFamily: FONT.medium,
-    fontWeight: '700',
+    color: COLORS.gray,
+    fontWeight: '400',
     marginBottom: SIZES.smallMargin
   },
 });

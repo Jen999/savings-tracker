@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 
 import styles from './insights.style';
-import { COLORS, SIZES } from '../../../constants';
+import { COLORS, SIZES, FONT } from '../../../constants';
 import InsightsCard from '../../common/cards/insights/InsightsCard';
 
 import { collection, onSnapshot } from "firebase/firestore";
@@ -75,16 +75,17 @@ const Insights = ({uid}) => {
           renderItem={renderItem}
           keyExtractor={item => item.id}
         /> : 
-        <Text
-          style={{
-          ...styles.subHeaders,
-          alignSelf: 'center',
-          justifyContent: 'center',
-          marginTop: SIZES.medium,
-          marginBottom: SIZES.xLarge
-        }}>No data recorded</Text>
+        <View style={{padding: SIZES.medium}}>
+          <Text
+            style={{
+              alignSelf: 'center',
+              fontSize: SIZES.large,
+              fontFamily: FONT.medium,
+              fontWeight: '500',
+              color: COLORS.secondary
+          }}>No Insights Found</Text>
+        </View>
       }
-      
     </View>
   )
 }

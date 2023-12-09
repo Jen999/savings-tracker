@@ -49,39 +49,6 @@ function LoginIn() {
         }
     }
 
-    // Creating new account
-    const signUp = async () => {
-        setLoading(true);
-        // Reset error messages
-        setEmailError('');
-        setPasswordError('');
-
-        try {
-            if (email === '') {
-                setEmailError('This is a required field.');
-                alert('Enter a valid email address and password above before clicking on "Create Account".');
-                return;
-            }
-            if (password === '') {
-                setPasswordError('This is a required field.');
-                alert('Enter a valid email address and password above before clicking on "Create Account".');
-                return;
-            }
-            const response = await createUserWithEmailAndPassword(auth, email, password).then(user => {
-                setDoc(doc(db, 'users', user.user.uid), {
-                    email: user.user.email,
-                })
-            });
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-            alert('Sign Up failed: ' + error.message);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-
     return (
         <SafeAreaView style={{backgroundColor: COLORS.white}}>
             <View style={{marginTop: 50, backgroundColor: COLORS.white, height: '100%'}}>
@@ -125,6 +92,8 @@ function LoginIn() {
                         }} 
                         onPress={() => setHidePass(!hidePass)}
                     />
+                </View>
+                <View style={{width: '95%', alignSelf: 'center', padding: SIZES.smallMargin, marginTop: -10}}>
                     {passwordError ? <Text style={styles.errorMessage}>{passwordError}</Text> : null}
                 </View>
                 <View>
@@ -140,9 +109,12 @@ function LoginIn() {
                             <TouchableOpacity style={loginStyles.container} onPress={signIn}>
                                 <Text style={loginStyles.button}>LOGIN</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={loginStyles.container} onPress={signUp}>
-                                <Text style={loginStyles.button}>CREATE ACCOUNT</Text>
-                            </TouchableOpacity>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: SIZES.xxxLarge}}>
+                                <Text>Don't have an account? </Text>
+                                <TouchableOpacity  onPress={() => navigation.navigate('Create Account')}>
+                                    <Text style={{color: COLORS.tertiary, fontFamily: FONT.medium, fontWeight: '700'}}>Sign Up</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     )}
                 </View>

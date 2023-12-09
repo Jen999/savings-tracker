@@ -30,12 +30,22 @@ function Info({ navigation }) {
                             <Ionicons name='person-sharp' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
                             <Text style={settingStyles.text}>Account Info</Text>
                         </View>
-                        {/* <Ionicons name='chevron-forward' style={{...settingStyles.icon, fontSize: SIZES.xLarge}}/> */}
                     </View>
                     <Text style={{...styles.smallText, marginLeft: SIZES.small}}>Email: {user.email}</Text>
                     <Text style={{...styles.smallText, marginLeft: SIZES.small}}>User ID: {user.uid}</Text>
                 </View>
                 <View style={settingStyles.container}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Reset Password')}>
+                        <View style={settingStyles.middle}>
+                            <View style={settingStyles.inner}>
+                                <Ionicons name='key-outline' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
+                                <Text style={settingStyles.text}>Change Password</Text>
+                            </View>
+                            <Ionicons name='chevron-forward' style={{...settingStyles.icon, fontSize: SIZES.xLarge}}/>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                {/* <View style={settingStyles.container}>
                     <View style={settingStyles.middle}>
                         <View style={settingStyles.inner}>
                             <Ionicons name='moon' style={{...settingStyles.icon, fontSize: SIZES.large}}/>
@@ -48,7 +58,7 @@ function Info({ navigation }) {
                             onPress={() => setDarkmode(!darkmode)}
                         />
                     </View>
-                </View>
+                </View> */}
                 <Text style={settingStyles.header}>Support</Text>
                 <View style={settingStyles.container}>
                     <View style={settingStyles.middle}>

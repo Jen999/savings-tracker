@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, useRouter } from 'expo-router';
-import { View, StyleSheet, SafeAreaView, ScrollView, Text, FlatList, Alert } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView, Text, FlatList, Alert, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import styles from './header.style';
@@ -11,18 +11,32 @@ import InsightsCard from '../components/common/cards/insights/InsightsCard';
 import ClearAll from '../components/common/cards/ClearAll';
 import RemoveAllInsights from '../components/insights/RemoveAllInsights';
 
+import inputboxStyle from '../components/add/inputbox/inputbox.style';
+import { COLORS, FONT, SIZES } from '../constants';
+
 
 function Insights({ navigation }) {
     const user = auth.currentUser;
     console.log(user.uid)
     const today = new Date();
-    const sgTime = today.toLocaleString('en-UK', { timeZone: 'Asia/Singapore' });
+    const sgTimeString = today.toLocaleString('en-UK', { timeZone: 'Asia/Singapore' });
+    const [sgDate, sgTime] = sgTimeString.split(',');
     const [insight, setInsight] = useState({date: '', insight: '', prompt: '', type: ''});
     const [insightItems, setInsightItems] = useState([]);
     const [transaction, setTransaction] = useState([]);
     const [goal, setGoal] = useState([]);
     const [loading, setLoading] = useState(false);
     const [dataFetched, setDataFetched] = useState(false);
+    const [insightsError, setInsightsError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    function convertDate(date) {
+        const [day, month, year] = date.split('/');
+        const dateString = [year, month, day].join('-');
+        return dateString;
+    };
+    const sgString = convertDate(sgDate);
+    const sgToday = new Date(sgString);
 
     function calcTotal() {
       let totalSum = 0;
@@ -75,6 +89,8 @@ function Insights({ navigation }) {
     useFocusEffect(
         React.useCallback(() => {
         const fetchData = async () => {
+            setInsightsError('');
+            setSuccess('');
             try {
                 setLoading(true);
 
@@ -114,7 +130,7 @@ function Insights({ navigation }) {
             }
         };
         fetchData();
-    }, []));
+    }, [insight]));
 
     // Insights checking 
     useEffect(() => {
@@ -139,7 +155,7 @@ function Insights({ navigation }) {
 
                     if (percentage >= 100.00) {
                         if (recentInsight != '5') {
-                            insight.date = sgTime
+                            insight.date = sgTimeString
                             insight.insight = `You have exceeded your ${goalType} budget!`
                             insight.prompt = 'Oh no! '
                             insight.type = '5'
@@ -149,8 +165,8 @@ function Insights({ navigation }) {
                     }
                     else if (percentage >= 90.00) {
                         if (recentInsight != '4') {
-                            insight.date = sgTime
-                            insight.insight = `You have spent 90% of your ${goalType} budget! You have SGD ${remaining} remaining.`
+                            insight.date = sgTimeString
+                            insight.insight = `You have spent more than 90% of your ${goalType} budget! You have SGD ${remaining} remaining.`
                             insight.prompt = 'Watch out! '
                             insight.type = '4'
                             setInsight({...insight, date: insight.date, insight: insight.insight, prompt: insight.prompt, type: insight.type});
@@ -159,8 +175,8 @@ function Insights({ navigation }) {
                     }
                     else if (percentage >= 75.00) {
                         if (recentInsight != '3') {
-                            insight.date = sgTime
-                            insight.insight = `You have spent 75% of your ${goalType} budget!`
+                            insight.date = sgTimeString
+                            insight.insight = `You have spent more than 75% of your ${goalType} budget!`
                             insight.prompt = 'Uh-oh... '
                             insight.type = '3'
                             setInsight({...insight, date: insight.date, insight: insight.insight, prompt: insight.prompt, type: insight.type});
@@ -169,8 +185,8 @@ function Insights({ navigation }) {
                     }
                     else if (percentage >= 50.00) {
                         if (recentInsight != '2') {
-                            insight.date = sgTime
-                            insight.insight = `You have spent 50% of your ${goalType} budget!`
+                            insight.date = sgTimeString
+                            insight.insight = `You have spent more than 50% of your ${goalType} budget!`
                             insight.prompt = 'Uh-oh... '
                             insight.type = '2'
                             setInsight({...insight, date: insight.date, insight: insight.insight, prompt: insight.prompt, type: insight.type});
@@ -179,8 +195,8 @@ function Insights({ navigation }) {
                     }
                     else if (percentage >= 25.00) {
                         if (recentInsight != '1') {
-                            insight.date = sgTime
-                            insight.insight = `You have spent 25% of your ${goalType} budget!`
+                            insight.date = sgTimeString
+                            insight.insight = `You have spent more than 25% of your ${goalType} budget!`
                             insight.prompt = 'Uh-oh... '
                             insight.type = '1'
                             setInsight({...insight, date: insight.date, insight: insight.insight, prompt: insight.prompt, type: insight.type});
@@ -218,6 +234,34 @@ function Insights({ navigation }) {
         );
     }
 
+    // Generate Insight
+    const generateInsight = () => {
+        
+        try {
+            if (goal.length > 0) {
+                if (insightItems.length > 0) {
+                    insight.type = insightItems[0].type;
+                } else {
+                    insight.type = 0;
+                }
+                const totalAmount = calcTotal();
+                const goalTotal = Number(goal[0].amount);
+                const goalType = goal[0].type;
+                const percentage =(100 * totalAmount) / goalTotal; 
+                insight.date = sgTimeString
+                insight.insight = `Status: You have spent ${percentage}% (SGD ${totalAmount}) of your ${goalType} budget the past ${sgToday.getDate().toString()} days.`
+                insight.prompt = ''
+                setInsight({...insight, date: insight.date, insight: insight.insight, prompt: insight.prompt, type: insight.type});
+                addInsight();
+                setSuccess('Insight generated successfully!')
+            } else {
+                setInsightsError('No goal added. Please add a goal before generating insight.');
+                console.log('Error generating insight', error)
+            }
+        } catch (error) {
+            console.log('Error generating insight', error);
+        }}
+
     return (
         <SafeAreaView>
             <Stack.Screen 
@@ -239,8 +283,39 @@ function Insights({ navigation }) {
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
+            <View style={inputboxStyle.container}>
+                <View style={{width: '95%', alignSelf: 'center', padding: SIZES.smallMargin, marginTop: -10}}>
+                    {insightsError ? <Text style={styles.errorMessage}>{insightsError}</Text> : null}
+                    {success ? <Text style={{...styles.successMessage, alignSelf: 'center'}}>{success}</Text> : null}
+                </View>
+                <View>
+                    <TouchableOpacity style={buttonStyle.container} onPress={generateInsight}>
+                        <Text style={buttonStyle.button}>Generate Insight</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </SafeAreaView>
     );
 }
+
+const buttonStyle = StyleSheet.create({
+    container: {
+        color: COLORS.primary, 
+        alignSelf: 'center',
+        alignItems: 'center',
+        width: '70%',
+        borderRadius: SIZES.small,
+        marginTop: SIZES.large,
+        padding: SIZES.small,
+        backgroundColor: COLORS.secondary
+    },
+    button: {
+        color: COLORS.white,
+        fontFamily: FONT.medium,
+        fontSize: SIZES.smallmed,
+        fontWeight: '700',
+        borderRadius: SIZES.small
+    }
+})
 
 export default Insights;

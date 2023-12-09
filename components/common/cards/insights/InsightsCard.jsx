@@ -36,7 +36,7 @@ const InsightsCard = ({date, insight, prompt, id}) => {
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
           <View style={styles.header}>
             <Text style={styles.date}>{date}</Text>
-            <Text style={warning.includes(prompt) ? styles.promptRed : styles.promptGreen}>{prompt}</Text>
+            {/* <Text style={warning.includes(prompt) ? styles.promptRed : styles.promptGreen}>{prompt}</Text> */}
           </View>
           <Pressable onPress={deleteInsight}>
             {loading ? (<Text>Pending Deletion</Text>)
