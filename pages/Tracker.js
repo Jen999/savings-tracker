@@ -103,6 +103,11 @@ function Tracker({ navigation }) {
 
     console.log(transaction);
 
+    console.log(sgToday)
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+
     return (
         <SafeAreaView>
             <Stack.Screen 
@@ -118,7 +123,7 @@ function Tracker({ navigation }) {
                 ListHeaderComponent={() => (
                     <>
                     <Chart transaction={transaction}/>
-                    <StandardCard item='Nov 2023: SGD ' total={totalAmount}/>
+                    <StandardCard item={`${months[sgToday.getMonth()]} ${sgToday.getFullYear()}: SGD `} total={totalAmount}/>
                     <ClearAll header='All Recorded Spendings' handlePress={handleClearAllPress}/>
                     {dataPresent()}
                     </>

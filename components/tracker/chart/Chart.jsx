@@ -38,6 +38,17 @@ const Chart = (transactions) => {
 
   // Handling list of months in chart
   const today = new Date();
+  const sgTimeString = today.toLocaleString('en-UK', { timeZone: 'Asia/Singapore' });
+  const [sgDate, sgTime] = sgTimeString.split(',');
+
+  function convertDate(date) {
+    const [day, month, year] = date.split('/');
+    const dateString = [year, month, day].join('-');
+    return dateString;
+  };
+  const sgString = convertDate(sgDate);
+  const sgToday = new Date(sgString);
+
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const barchartList = (month) => {
     if (month < 5) {
@@ -47,7 +58,7 @@ const Chart = (transactions) => {
     } 
     return months.slice(month-5, month+1);
   };
-  const monthsList = barchartList(today.getMonth());
+  const monthsList = barchartList(sgToday.getMonth());
 
   const barchartDict = monthsList.reduce((acc, month) => {
     acc[month] = 0;
