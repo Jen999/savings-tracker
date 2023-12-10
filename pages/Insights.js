@@ -249,7 +249,7 @@ function Insights({ navigation }) {
                 const goalType = goal[0].type;
                 const percentage =(100 * totalAmount) / goalTotal; 
                 insight.date = sgTimeString
-                insight.insight = `Status: You have spent ${percentage}% (SGD ${totalAmount}) of your ${goalType} budget the past ${sgToday.getDate().toString()} days.`
+                insight.insight = `Status: You have spent ${percentage}% (SGD ${totalAmount.toFixed(2)}) of your ${goalType} budget the past ${sgToday.getDate().toString()} days.`
                 insight.prompt = ''
                 setInsight({...insight, date: insight.date, insight: insight.insight, prompt: insight.prompt, type: insight.type});
                 addInsight();
